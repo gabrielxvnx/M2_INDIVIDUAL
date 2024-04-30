@@ -5,7 +5,6 @@
 2. **Tecnologia**: Descreve as tecnologias disponíveis.
 3. **Tecnologia_Empresa**: Associa empresas a tecnologias e registra o nível de utilização.
 4. **Colaborador**: Armazena informações sobre os colaboradores das empresas.
-5. **Colaborador_Empresa**: Tabela de associação para relacionar colaboradores e empresas.
 
 ## Quais são os principais campos e seus respectivos tipos?
 ### Empresa
