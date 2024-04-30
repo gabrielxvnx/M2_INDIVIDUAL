@@ -1,6 +1,4 @@
 # Sistema RESILIADATA
-
-## Descrição
 O **Sistema RESILIADATA** é um banco de dados desenvolvido para armazenar informações críticas utilizadas por empresas parceiras para avaliar tecnologias e gerenciar colaboradores[^2^][2].
 
 ## Entidades do Projeto
