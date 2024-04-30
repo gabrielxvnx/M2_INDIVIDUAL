@@ -2,7 +2,7 @@ Perguntas
 
 1 - Quais são as entidades necessárias?
 
-empresa, tecnologia, tecnologia_Empresa, colaborador
+empresa, tecnologia, tecnologia_empresa, colaborador
 
 2 - Quais são os principais campos e seus respectivos tipos?
 
@@ -34,16 +34,9 @@ empresa, tecnologia, tecnologia_Empresa, colaborador
 
 3 - Como essas entidades estão relacionadas?
 
-    - Relacionamento N:N entre empresa e colaborador (uma empresa pode ter vários colaboradores e um colaborador pode ter varias empresas).
-    - Relacionamento N:N entre empresa e tecnologias através da tabela de associação Tecnologia_Empresa (uma empresa pode utilizar várias tecnologias, e uma tecnologia pode ser utilizada por várias empresas).
-
-    Tabela tecnologia_empresa:
-        Chave Estrangeira id_empresa: Referencia a id_empresa na tabela empresa.
-        Chave Estrangeira id_tecnologia: Referencia a id_tecnologia na tabela tecnologia.
-
-    Tabela colaborador_empresa:
-        Chave Estrangeira id_colaborador: Referencia a id_colaborador na tabela colaborador.
-        Chave Estrangeira id_empresa: Referencia a id_empresa na tabela empresa.
+empresa ↔ tecnologia_empresa: Relacionamento muitos-para-muitos.
+tecnologias_empresa ↔ tecnologia: Relacionamento muitos-para-um.
+colaborador ↔ empresa: Relacionamento muitos-para-um.
 
 4 - Simule 2 registros para cada entidade.
 
