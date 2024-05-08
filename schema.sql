@@ -34,8 +34,8 @@ ALTER TABLE colaborador ADD FOREIGN KEY(id_empresa) REFERENCES empresa(id_empres
 
 INSERT INTO empresa(nome_empresa, endereco, telefone) 
 VALUES 
-('Gabriel', 'Rua Maneira 144', '(21) 93333-3333'),
-('jordão', 'Rua Meio Ruim 155', '(21) 94444-4444');
+('Google', 'Rua Maneira 144', '(21) 93333-3333'),
+('Nubank', 'Rua Meio Ruim 155', '(21) 94444-4444');
 
 INSERT INTO tecnologias(area, nome_tecnologia) 
 VALUES 
@@ -44,8 +44,8 @@ VALUES
 
 INSERT INTO colaborador(nome, cargo, id_empresa) 
 VALUES 
-('Luan Santana', 'Gerente Geral', 1),
-('Ariana Grande', 'Analista de Dados', 2);
+('João Paulo', 'Gerente Geral', 1),
+('Gabriel Vinicius', 'Analista de Dados', 2);
 
 INSERT INTO tecnologias_empresa(id_emp_tec, id_empresa, id_tecnologias, nivel_utilizacao) 
 VALUES 
