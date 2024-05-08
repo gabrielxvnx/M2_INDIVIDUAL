@@ -54,16 +54,16 @@ Uma tecnologia pode estar associada a várias entradas em Tecnologias_Empresa.
 4) Simulação de 2 Registros para Cada Entidade:
 
 - Empresa:
-id_empresa: 1, nome_empresa: 'Gabriel', endereco: 'Rua Maneira 144', telefone: '(21) 93333-3333'
-id_empresa: 2, nome_empresa: 'Jordão', endereco: 'Rua Meio Ruim 155', telefone: '(21) 94444-4444'
+id_empresa: 1, nome_empresa: 'Google', endereco: 'Rua Maneira 144', telefone: '(21) 93333-3333'
+id_empresa: 2, nome_empresa: 'Nubank', endereco: 'Rua Meio Ruim 155', telefone: '(21) 94444-4444'
 
 - Tecnologias:
 id_tecnologias: 1, area: 'Análise de Dados', nome_tecnologia: 'MySQL'
 id_tecnologias: 2, area: 'Programação', nome_tecnologia: 'Python'
 
 - Colaborador:
-id_colaborador: 1, nome: 'Luan Santana', cargo: 'Gerente Geral', id_empresa: 1
-id_colaborador: 2, nome: 'Ariana Grande', cargo: 'Analista de Dados', id_empresa: 2
+id_colaborador: 1, nome: 'João Paulo', cargo: 'Gerente Geral', id_empresa: 1
+id_colaborador: 2, nome: 'Gabriel Vinicius', cargo: 'Analista de Dados', id_empresa: 2
 
 - Tecnologias_Empresa:
 id_emp_tec: 1, id_empresa: 1, id_tecnologias: 1, nivel_utilizacao: 4
