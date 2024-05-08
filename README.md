@@ -8,10 +8,10 @@ O **Sistema RESILIADATA** é um banco de dados desenvolvido para armazenar infor
 - **Colaboradores**: Tabela para cadastro de colaboradores das empresas parceiras.
 
 ## Campos Principais
-- **Empresas Parceiras**: Nome, CNPJ, Setor, Tecnologias Utilizadas.
-- **Tecnologias**: Nome, Área, Descrição.
-- **Tecnologias Utilizadas**: Empresa, Tecnologia, Data de Adoção.
-- **Colaboradores**: Nome, CPF, Cargo, Empresa.
+- **Empresa**: Nome, endereco, telefone.
+- **Tecnologias**: Nome, Área.
+- **Tecnologias_Empresa**: Empresa, Tecnologia, Nivel de utilização.
+- **Colaborador**: Nome, Cargo, Empresa.
 
 ## Relacionamentos
 - **Empresas Parceiras** ↔ **Tecnologias Utilizadas**: Relacionamento muitos-para-muitos.
