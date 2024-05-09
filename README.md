@@ -19,8 +19,6 @@ O banco de dados consiste nas seguintes entidades:
 
 <img src="logico.png"/>
 
-!Modelagem do Banco de Dados
-
 ## Views do Banco de Dados
 
 As views são utilizadas para simplificar consultas complexas e fornecer uma camada de abstração para operações comuns. Abaixo estão as views criadas neste projeto, juntamente com exemplos de como utilizá-las.
