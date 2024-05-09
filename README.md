@@ -1,25 +1,79 @@
 # Sistema RESILIADATA
 O **Sistema RESILIADATA** é um banco de dados desenvolvido para armazenar informações críticas utilizadas por empresas parceiras para avaliar tecnologias e gerenciar colaboradores.
 
-## Entidades do Projeto
-- **Empresas Parceiras**: Cadastro das empresas que utilizam o sistema.
-- **Tecnologias**: Cadastro das tecnologias com opções de áreas como webdev, dados, marketing, etc.
-- **Tecnologias Utilizadas**: Tabela que registra quais tecnologias as empresas estão utilizando.
-- **Colaboradores**: Tabela para cadastro de colaboradores das empresas parceiras.
+## Estrutura do Banco de Dados
 
-## Campos Principais
-- **Empresa**: Nome, endereco, telefone.
-- **Tecnologias**: Nome, Área.
-- **Tecnologias_Empresa**: Empresa, Tecnologia, Nivel de utilização.
-- **Colaborador**: Nome, Cargo, Empresa.
+O banco de dados consiste nas seguintes entidades:
 
-## Relacionamentos
-- **Empresas Parceiras** ↔ **Tecnologias Utilizadas**: Relacionamento muitos-para-muitos.
-- **Tecnologias Utilizadas** ↔ **Tecnologias**: Relacionamento muitos-para-um.
-- **Colaboradores** ↔ **Empresas Parceiras**: Relacionamento muitos-para-um.
+- `empresa`: Armazena informações sobre as empresas, incluindo nome, CNPJ, localização, contato e email.
+- `tecnologia`: Contém detalhes sobre as tecnologias, como nome e status (ativo/inativo).
+- `colaborador`: Registra os colaboradores das empresas, seus cargos, disponibilidade e emails.
+- `registro`: Mantém um registro das tecnologias utilizadas pelas empresas, associadas a pesquisas específicas.
 
-## Como Executar
-1. Clone o repositório do GitHub.
-2. Importe o modelo de banco de dados para a ferramenta de sua escolha.
-3. Execute as migrações para criar as tabelas no banco de dados.
-4. Inicie o sistema e realize os cadastros necessários.
+### Relacionamentos
+
+- **Um-para-Muitos**: A entidade `empresa` pode ter vários colaboradores, mas a entidade `colaborador` pode ter apenas uma. 
+- **Muitos-para-Muitos**: Uma empresa pode utilizar várias tecnologias, e uma tecnologia pode ser utilizada por várias empresas. Isso é gerenciado pela entidade `registro` que atua como uma tabela de junção entre `empresa` e `tecnologia`.
+
+## Modelagem do Banco de Dados
+
+<img src="logico.png"/>
+
+!Modelagem do Banco de Dados
+
+## Views do Banco de Dados
+
+As views são utilizadas para simplificar consultas complexas e fornecer uma camada de abstração para operações comuns. Abaixo estão as views criadas neste projeto, juntamente com exemplos de como utilizá-las.
+
+### MaiorNumeroTecnologias
+Identifica a empresa que utiliza o maior número de tecnologias na última pesquisa (2/2022).
+
+```sql
+CREATE VIEW MaiorNumeroTecnologias AS
+SELECT emp.nome AS nome, COUNT(reg.id_registro) AS `Quantidade de tecnologias 2/2022`
+FROM empresa as emp
+INNER JOIN registro as reg ON emp.id_empresa = reg.id_empresa
+WHERE reg.pesquisa = '2022/2'
+GROUP BY nome
+ORDER BY COUNT(reg.id_registro) DESC;
+```
+
+### MenorNumeroTecnologias
+Determina a empresa que utilizava o menor número de tecnologias na pesquisa anterior (1/2022).
+
+```sql
+CREATE VIEW MenorNumeroTecnologias AS
+SELECT emp.nome AS nome, COUNT(reg.id_registro) AS `Quantidade de tecnologias 1/2022`
+FROM empresa as emp
+LEFT JOIN registro as reg ON emp.id_empresa = reg.id_empresa
+WHERE reg.pesquisa = '2022/1'
+GROUP BY nome
+ORDER BY COUNT(reg.id_registro) ASC;
+```
+
+### EmpresasDeDados
+Conta quantas empresas utilizam tecnologias na área de “Dados”.
+
+```sql
+CREATE VIEW EmpresasDeDados AS
+SELECT COUNT(DISTINCT reg.id_empresa) AS `Quantidade de Empresas que usam tecnlogias para dados`
+FROM registro AS reg
+WHERE reg.area = 'Dados';
+```
+### EmpresasSemDados
+Conta quantas empresas utilizam tecnologias que não são da área de “Dados”.
+
+```sql
+CREATE VIEW EmpresasSemDados AS
+SELECT COUNT(DISTINCT reg.id_empresa) AS `Quantidade de Empresas que não usam tecnlogias para dados`
+FROM registro AS reg
+WHERE reg.area != 'Dados';
+```
+## Como utilizar as Views
+Para consultar as informações das views, você pode executar comandos SELECT simples. Aqui esta um exemplo:
+```sql
+-- Consulta a view MaiorNumeroTecnologias para encontrar a empresa com o maior uso de tecnologias
+SELECT * FROM MaiorNumeroTecnologias
+LIMIT 1;
+```
+
