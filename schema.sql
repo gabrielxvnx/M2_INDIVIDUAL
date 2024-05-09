@@ -1,55 +1,108 @@
-CREATE DATABASE resiliadata;
+-- Criar o banco de dados
+CREATE DATABASE IF NOT EXISTS resiliadata;
 USE resiliadata;
 
-CREATE TABLE empresa( 
-id_empresa INT NOT NULL PRIMARY KEY AUTO_INCREMENT,  
-nome_empresa VARCHAR(70) NOT NULL,  
-endereco VARCHAR(70) NOT NULL,  
-telefone VARCHAR(70) NOT NULL
-); 
+-- Criar tabela colaborador
+CREATE TABLE colaborador(
+  id_colaborador int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  nome varchar(255) NOT NULL,
+  cargo varchar(30) NOT NULL,
+  disponibilidade varchar(255) NOT NULL,
+  email varchar(255) NOT NULL,
+  id_empresa int(11) NOT NULL,
+  CONSTRAINT fk_id_empresa FOREIGN KEY (id_empresa) REFERENCES empresa (id_empresa)
+);
 
-CREATE TABLE tecnologias( 
-id_tecnologias INT NOT NULL PRIMARY KEY AUTO_INCREMENT,  
-area VARCHAR(70) NOT NULL,  
-nome_tecnologia VARCHAR(70) NOT NULL
-); 
+-- Criar tabela empresa
+CREATE TABLE empresa(
+  id_empresa int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  nome varchar(255) NOT NULL,
+  cnpj varchar(20) NOT NULL,
+  localizacao varchar(255) NOT NULL,
+  contato varchar(255) NOT NULL,
+  email varchar(255) NOT NULL
+);
 
-CREATE TABLE colaborador( 
-id_colaborador INT NOT NULL PRIMARY KEY AUTO_INCREMENT,  
-nome VARCHAR(70) NOT NULL,  
-cargo VARCHAR(70) NOT NULL,  
-id_empresa INT NOT NULL 
-); 
+-- Criar tabela registro
+CREATE TABLE registro(
+  id_registro int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  pesquisa varchar(10) NOT NULL,
+  id_empresa int(11) NOT NULL,
+  id_tec int(11) NOT NULL,
+  area varchar(30) NOT NULL,
+  versao_tec varchar(20) NOT NULL,
+  CONSTRAINT fk_emp FOREIGN KEY (id_empresa) REFERENCES empresa (id_empresa),
+  CONSTRAINT fk_tec FOREIGN KEY (id_tec) REFERENCES tecnologia (id_tec)
+);
 
-CREATE TABLE tecnologias_empresa( 
-id_emp_tec INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-id_empresa INT NOT NULL,  
-id_tecnologias INT NOT NULL,  
-nivel_utilizacao INT NOT NULL  
-); 
+-- Criar tabela tecnologia
+CREATE TABLE tecnologia(
+  id_tec int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  nome varchar(255) NOT NULL,
+  status varchar(25) NOT NULL
+);
 
-ALTER TABLE tecnologias_empresa ADD FOREIGN KEY(id_empresa) REFERENCES empresa(id_empresa);
-ALTER TABLE tecnologias_empresa ADD FOREIGN KEY(id_tecnologias) REFERENCES tecnologias(id_tecnologias);
-ALTER TABLE colaborador ADD FOREIGN KEY(id_empresa) REFERENCES empresa(id_empresa);
+-- Inserir dados na tabela tecnologia
+INSERT INTO tecnologia (nome, status) VALUES
+('React', 'Ativo'),
+('Node.js', 'Ativo'),
+('Java', 'Ativo'),
+('Python', 'Ativo'),
+('SQL', 'Ativo'),
+('Marketing Cloud', 'Ativo'),
+('Salesforce', 'Ativo'),
+('Angular', 'Ativo'),
+('Vue.js', 'Ativo'),
+('Docker', 'Ativo');
 
-INSERT INTO empresa(nome_empresa, endereco, telefone) 
-VALUES 
-('Google', 'Rua Maneira 144', '(21) 93333-3333'),
-('Nubank', 'Rua Meio Ruim 155', '(21) 94444-4444');
+-- Inserir empresas brasileiras
+INSERT INTO empresa (nome, cnpj, localizacao, contato, email) VALUES
+('Banco do Brasil', '00.000.000/0001-91', 'Brasília, DF, Brasil', '+55 (61) 1234-5678', 'contato@bb.com.br'),
+('Itaú Unibanco', '00.000.000/0002-54', 'São Paulo, SP, Brasil', '+55 (11) 9876-5432', 'contato@itau.com.br'),
+('Banco Bradesco', '00.000.000/0003-97', 'Osasco, SP, Brasil', '+55 (11) 8765-4321', 'contato@bradesco.com.br'),
+('Ambev', '00.000.000/0004-30', 'São Paulo, SP, Brasil', '+55 (11) 4567-8901', 'contato@ambev.com.br');
 
-INSERT INTO tecnologias(area, nome_tecnologia) 
-VALUES 
-('Análise de Dados', 'MySQL'),
-('Programação', 'Python');
+INSERT INTO registro (pesquisa, id_empresa, id_tec, area, versao_tec) VALUES
+('2022/1', 1, 2, 'Webdev', '18.0.0'),
+('2022/1', 2, 3, 'Dados', '18.0.0'),
+('2022/1', 3, 1, 'Jogos', '18.0.0'),
+('2022/1', 1, 2, 'Webdev', '18.0.0'),
+('2022/1', 2, 1, 'Aplicações corporativas', '18.0.0'),
+('2022/1', 3, 3, 'Dados', '18.0.0'),
+('2022/1', 1, 3, 'Marketing', '18.0.0'),
+('2022/1', 2, 2, 'back-end', '18.0.0'),
+('2022/1', 1, 3, 'Marketing', '18.0.0'),
+('2022/1', 1, 3, 'Marketing', '18.0.0'),
+('2022/2', 3, 1, 'Webdev', '18.0.0'),
+('2022/2', 1, 2, 'Data Science', '3.10.0'),
+('2022/2', 2, 3, 'Marketing', '18.0.0'),
+('2022/2', 3, 1, 'E-commerce', '18.0.0'),
+('2022/2', 1, 2, 'Aplicações de IoT', '18.0.0'),
+('2022/2', 2, 3, 'Webdev', '18.0.0'),
+('2022/2', 3, 6, 'Webdev', '3.2.3'),
+('2022/2', 1, 7, 'Operações', '2023.1'),
+('2022/2', 2, 2, 'Jogos', '18.0.0'),
+('2022/2', 5, 4, 'machine learning', '3.10.0');
 
-INSERT INTO colaborador(nome, cargo, id_empresa) 
-VALUES 
-('João Paulo', 'Gerente Geral', 1),
-('Gabriel Vinicius', 'Analista de Dados', 2);
-
-INSERT INTO tecnologias_empresa(id_emp_tec, id_empresa, id_tecnologias, nivel_utilizacao) 
-VALUES 
-(1, 1, 1, 4),
-(2, 1, 2, 3),
-(3, 2, 1, 5),
-(4, 2, 2, 2);
+-- Inserir colaboradores
+INSERT INTO colaborador (nome, cargo, disponibilidade, email, id_empresa) VALUES
+('João Silva', 'Desenvolvedor Frontend', 'Integral', 'joao.silva@bb.com.br', 1),
+('Maria Santos', 'Analista de Dados', 'Integral', 'maria.santos@bb.com.br', 1),
+('Pedro Souza', 'Desenvolvedor Backend', 'Integral', 'pedro.souza@itau.com.br', 2),
+('Ana Oliveira', 'Engenheira de Dados', 'Integral', 'ana.oliveira@itau.com.br', 2),
+('Lucas Pereira', 'Analista de Sistemas', 'Integral', 'lucas.pereira@bradesco.com.br', 3),
+('Camila Lima', 'Analista de Segurança da Informação', 'Integral', 'camila.lima@bradesco.com.br', 3),
+('Thiago Costa', 'Desenvolvedor Full Stack', 'Integral', 'thiago.costa@ambev.com.br', 4),
+('Carla Rodrigues', 'Cientista de Dados', 'Integral', 'carla.rodrigues@ambev.com.br', 4),
+('Gustavo Santos', 'Engenheiro de Software', 'Integral', 'gustavo.santos@bb.com.br', 1),
+('Fernanda Oliveira', 'Analista de Negócios', 'Integral', 'fernanda.oliveira@bb.com.br', 1),
+('Rodrigo Almeida', 'Analista de Sistemas', 'Integral', 'rodrigo.almeida@itau.com.br', 2),
+('Juliana Costa', 'Engenheira de Dados', 'Integral', 'juliana.costa@itau.com.br', 2),
+('Marcos Silva', 'Desenvolvedor Frontend', 'Integral', 'marcos.silva@bradesco.com.br', 3),
+('Isabela Santos', 'Analista de Dados', 'Integral', 'isabela.santos@bradesco.com.br', 3),
+('Mariana Oliveira', 'Desenvolvedora Full Stack', 'Integral', 'mariana.oliveira@ambev.com.br', 4),
+('Roberto Nunes', 'Cientista de Dados', 'Integral', 'roberto.nunes@ambev.com.br', 4),
+('Rafaela Costa', 'Analista de Sistemas', 'Integral', 'rafaela.costa@bb.com.br', 1),
+('Carlos Lima', 'Analista de Segurança da Informação', 'Integral', 'carlos.lima@bb.com.br', 1),
+('Renata Almeida', 'Desenvolvedora Full Stack', 'Integral', 'renata.almeida@itau.com.br', 2),
+('André Santos', 'Analista de Negócios', 'Integral', 'andre.santos@itau.com.br', 2);
