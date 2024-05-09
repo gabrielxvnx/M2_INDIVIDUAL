@@ -64,26 +64,26 @@ INSERT INTO empresa (nome, cnpj, localizacao, contato, email) VALUES
 
 -- Inserir registros
 INSERT INTO registro (pesquisa, id_empresa, id_tec, area, versao_tec) VALUES
-('2022/1', 1, 2, 'Webdev', '18.0.0'),
-('2022/1', 2, 3, 'Dados', '18.0.0'),
+('2022/1', 1, 4, 'Dados', '18.0.0'),
+('2022/1', 4, 3, 'Dados', '18.0.0'),
 ('2022/1', 3, 1, 'Jogos', '18.0.0'),
 ('2022/1', 1, 2, 'Webdev', '18.0.0'),
 ('2022/1', 2, 1, 'Aplicações corporativas', '18.0.0'),
 ('2022/1', 3, 3, 'Dados', '18.0.0'),
 ('2022/1', 1, 3, 'Marketing', '18.0.0'),
 ('2022/1', 2, 2, 'back-end', '18.0.0'),
-('2022/1', 1, 3, 'Marketing', '18.0.0'),
+('2022/1', 4, 3, 'Marketing', '18.0.0'),
 ('2022/1', 1, 3, 'Marketing', '18.0.0'),
 ('2022/2', 3, 1, 'Webdev', '18.0.0'),
 ('2022/2', 1, 2, 'Data Science', '3.10.0'),
-('2022/2', 2, 3, 'Marketing', '18.0.0'),
+('2022/2', 5, 3, 'Dados', '18.0.0'),
 ('2022/2', 3, 1, 'E-commerce', '18.0.0'),
 ('2022/2', 1, 2, 'Aplicações de IoT', '18.0.0'),
 ('2022/2', 2, 3, 'Webdev', '18.0.0'),
 ('2022/2', 3, 6, 'Webdev', '3.2.3'),
-('2022/2', 1, 7, 'Operações', '2023.1'),
-('2022/2', 2, 2, 'Jogos', '18.0.0'),
-('2022/2', 3, 4, 'machine learning', '3.10.0');
+('2022/2', 4, 7, 'Operações', '2023.1'),
+('2022/2', 2, 5, 'Dados', '18.0.0'),
+('2022/2', 4, 4, 'machine learning', '3.10.0');
 
 -- Inserir colaboradores
 INSERT INTO colaborador (nome, cargo, disponibilidade, email, id_empresa) VALUES
@@ -110,21 +110,24 @@ INSERT INTO colaborador (nome, cargo, disponibilidade, email, id_empresa) VALUES
 
 
 -- 1. Qual empresa utiliza o maior número de tecnologias na última pesquisa (2/2022)?;
+
 CREATE VIEW MaiorNumeroTecnologias AS
-SELECT emp.nome AS nome, COUNT(reg.id_registro) AS 'Quantidade de tecnologias 2/2022'
+SELECT emp.nome AS nome, COUNT(reg.id_registro) AS `Quantidade de tecnologias 2/2022`
 FROM empresa as emp
 INNER JOIN registro as reg ON emp.id_empresa = reg.id_empresa
 WHERE reg.pesquisa = '2022/2'
-GROUP BY nome;
+GROUP BY nome
+ORDER BY COUNT(reg.id_registro) DESC;
 
 -- 2. Qual empresa utilizava o menor número de tecnologias na pesquisa anterior (1/2022)?
 
 CREATE VIEW MenorNumeroTecnologias AS
-SELECT emp.nome AS nome, COUNT(reg.id_registro) AS 'Quantidade de tecnologias 1/2022'
+SELECT emp.nome AS nome, COUNT(reg.id_registro) AS `Quantidade de tecnologias 1/2022`
 FROM empresa as emp
 LEFT JOIN registro as reg ON emp.id_empresa = reg.id_empresa
 WHERE reg.pesquisa = '2022/1'
-GROUP BY nome;
+GROUP BY nome
+ORDER BY COUNT(reg.id_registro) ASC;
 
 -- 3. Quantas empresas utilizam tecnologias na área de “Dados” atualmente?;
 CREATE VIEW EmpresasDeDados AS
