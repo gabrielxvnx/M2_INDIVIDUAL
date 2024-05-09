@@ -2,17 +2,6 @@
 CREATE DATABASE IF NOT EXISTS resiliadata;
 USE resiliadata;
 
--- Criar tabela colaborador
-CREATE TABLE colaborador(
-  id_colaborador int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  nome varchar(255) NOT NULL,
-  cargo varchar(30) NOT NULL,
-  disponibilidade varchar(255) NOT NULL,
-  email varchar(255) NOT NULL,
-  id_empresa int(11) NOT NULL,
-  CONSTRAINT fk_id_empresa FOREIGN KEY (id_empresa) REFERENCES empresa (id_empresa)
-);
-
 -- Criar tabela empresa
 CREATE TABLE empresa(
   id_empresa int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -21,6 +10,24 @@ CREATE TABLE empresa(
   localizacao varchar(255) NOT NULL,
   contato varchar(255) NOT NULL,
   email varchar(255) NOT NULL
+);
+
+-- Criar tabela tecnologia
+CREATE TABLE tecnologia(
+  id_tec int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  nome varchar(255) NOT NULL,
+  status varchar(25) NOT NULL
+);
+
+-- Criar tabela colaborador
+CREATE TABLE colaborador(
+  id_colaborador int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  nome varchar(255) NOT NULL,
+  cargo varchar(255) NOT NULL,
+  disponibilidade varchar(255) NOT NULL,
+  email varchar(255) NOT NULL,
+  id_empresa int(11) NOT NULL,
+  CONSTRAINT fk_id_empresa FOREIGN KEY (id_empresa) REFERENCES empresa (id_empresa)
 );
 
 -- Criar tabela registro
@@ -33,13 +40,6 @@ CREATE TABLE registro(
   versao_tec varchar(20) NOT NULL,
   CONSTRAINT fk_emp FOREIGN KEY (id_empresa) REFERENCES empresa (id_empresa),
   CONSTRAINT fk_tec FOREIGN KEY (id_tec) REFERENCES tecnologia (id_tec)
-);
-
--- Criar tabela tecnologia
-CREATE TABLE tecnologia(
-  id_tec int(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  nome varchar(255) NOT NULL,
-  status varchar(25) NOT NULL
 );
 
 -- Inserir dados na tabela tecnologia
@@ -62,6 +62,7 @@ INSERT INTO empresa (nome, cnpj, localizacao, contato, email) VALUES
 ('Banco Bradesco', '00.000.000/0003-97', 'Osasco, SP, Brasil', '+55 (11) 8765-4321', 'contato@bradesco.com.br'),
 ('Ambev', '00.000.000/0004-30', 'São Paulo, SP, Brasil', '+55 (11) 4567-8901', 'contato@ambev.com.br');
 
+-- Inserir registros
 INSERT INTO registro (pesquisa, id_empresa, id_tec, area, versao_tec) VALUES
 ('2022/1', 1, 2, 'Webdev', '18.0.0'),
 ('2022/1', 2, 3, 'Dados', '18.0.0'),
@@ -82,7 +83,7 @@ INSERT INTO registro (pesquisa, id_empresa, id_tec, area, versao_tec) VALUES
 ('2022/2', 3, 6, 'Webdev', '3.2.3'),
 ('2022/2', 1, 7, 'Operações', '2023.1'),
 ('2022/2', 2, 2, 'Jogos', '18.0.0'),
-('2022/2', 5, 4, 'machine learning', '3.10.0');
+('2022/2', 3, 4, 'machine learning', '3.10.0');
 
 -- Inserir colaboradores
 INSERT INTO colaborador (nome, cargo, disponibilidade, email, id_empresa) VALUES
@@ -106,3 +107,33 @@ INSERT INTO colaborador (nome, cargo, disponibilidade, email, id_empresa) VALUES
 ('Carlos Lima', 'Analista de Segurança da Informação', 'Integral', 'carlos.lima@bb.com.br', 1),
 ('Renata Almeida', 'Desenvolvedora Full Stack', 'Integral', 'renata.almeida@itau.com.br', 2),
 ('André Santos', 'Analista de Negócios', 'Integral', 'andre.santos@itau.com.br', 2);
+
+
+-- 1. Qual empresa utiliza o maior número de tecnologias na última pesquisa (2/2022)?;
+CREATE VIEW MaiorNumeroTecnologias AS
+SELECT emp.nome AS nome, COUNT(reg.id_registro) AS 'Quantidade de tecnologias 2/2022'
+FROM empresa as emp
+INNER JOIN registro as reg ON emp.id_empresa = reg.id_empresa
+WHERE reg.pesquisa = '2022/2'
+GROUP BY nome;
+
+-- 2. Qual empresa utilizava o menor número de tecnologias na pesquisa anterior (1/2022)?
+
+CREATE VIEW MenorNumeroTecnologias AS
+SELECT emp.nome AS nome, COUNT(reg.id_registro) AS 'Quantidade de tecnologias 1/2022'
+FROM empresa as emp
+LEFT JOIN registro as reg ON emp.id_empresa = reg.id_empresa
+WHERE reg.pesquisa = '2022/1'
+GROUP BY nome;
+
+-- 3. Quantas empresas utilizam tecnologias na área de “Dados” atualmente?;
+CREATE VIEW EmpresasDeDados AS
+SELECT COUNT(DISTINCT reg.id_empresa) AS 'Empresas que usam tecnlogias para dados'
+FROM registro AS reg
+WHERE reg.area = 'Dados';
+
+-- 4. Quantas empresas utilizam tecnologias que não são da área de “Dados” atualmente?
+CREATE VIEW EmpresasSemDados AS
+SELECT COUNT(DISTINCT reg.id_empresa) AS 'Empresas que não usam tecnlogias para dados'
+FROM registro AS reg
+WHERE reg.area != 'Dados';
