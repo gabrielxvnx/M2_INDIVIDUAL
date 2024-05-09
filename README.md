@@ -78,6 +78,6 @@ LIMIT 1;
 ```
 
 ## Como Executar
-1. Importe o modelo de banco de dados e os inserts no arquvivo `schema.sql` para a ferramenta de sua escolha.
+1. Importe o modelo de banco de dados e os inserts no arquvivo `resiliadata.sql` para a ferramenta de sua escolha.
 2. Execute as migrações para criar as tabelas no banco de dados.
 3. Utilize o arquivo `query.sql` para fazer as consultas criadas no banco de dados.
