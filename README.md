@@ -10,10 +10,12 @@ O banco de dados consiste nas seguintes entidades:
 - `colaborador`: Registra os colaboradores das empresas, seus cargos, disponibilidade e emails.
 - `registro`: Mantém um registro das tecnologias utilizadas pelas empresas, associadas a pesquisas específicas.
 
-### Relacionamentos
+## Relacionamentos
 
-- **Um-para-Muitos**: A entidade `empresa` pode ter vários colaboradores, mas a entidade `colaborador` pode ter apenas uma. 
-- **Muitos-para-Muitos**: Uma empresa pode utilizar várias tecnologias, e uma tecnologia pode ser utilizada por várias empresas. Isso é gerenciado pela entidade `registro` que atua como uma tabela de junção entre `empresa` e `tecnologia`.
+### Empresa ↔️ Tecnologia
+- Relacionamento Muitos-Para-Muitos: Uma Empresa pode utilizar diversas Tecnologias, e uma Tecnologia pode ser empregada por várias Empresas. Isso é gerenciado pela entidade `registro` que atua como uma tabela de junção entre `empresa` e `tecnologia`.
+### Colaborador ➡️ Empresa
+- Relacionamento Um-Para-Muitos: Uma Empresa Parceira pode ter vários Colaboradores, mas um Colaborador está vinculado a apenas uma Empresa.
 
 ## Modelagem do Banco de Dados
 
