@@ -5,68 +5,62 @@
 
 ----------------------------------------------------------------------
 
-1) Entidades Necessárias:
+Claro, vou responder às suas perguntas:
 
-- Empresa
-- Tecnologias
-- Colaborador
-- Tecnologias_Empresa
+1) **Quais são as entidades necessárias?**
+   - As entidades necessárias são: `colaborador`, `empresa`, `registro`, e `tecnologia`.
 
-2) Principais Campos e Tipos de Dados:
+2) **Quais são os principais campos e seus respectivos tipos?**
+     - **Colaborador:**
+       - id_colaborador (int)
+       - nome (varchar)
+       - cargo (varchar)
+       - disponibilidade (varchar)
+       - email (varchar)
+       - id_empresa (int)
+     - **Empresa:**
+       - id_empresa (int)
+       - nome (varchar)
+       - cnpj (varchar)
+       - localizacao (varchar)
+       - contato (varchar)
+       - email (varchar)
+     - **Registro:**
+       - id_registro (int)
+       - pesquisa (varchar)
+       - id_empresa (int)
+       - id_tec (int)
+       - area (varchar)
+     - **Tecnologia:**
+       - id_tec (int)
+       - nome (varchar)
+       - status (varchar)
 
-- Empresa:
-id_empresa (Chave Primária, Inteiro, AUTO_INCREMENT)
-nome_empresa (Texto, NOT NULL)
-endereco (Texto, NOT NULL)
-telefone (Texto, NOT NULL)
+3) **Como essas entidades estão relacionadas?**
+     - A entidade `colaborador` tem uma relação muitos-para-um com a entidade `empresa`, 
+     - A entidade `registro` tem relações muitos-para-um tanto com `empresa` muitos-para-um tanto com `tecnologia`. 
 
-- Tecnologias:
-id_tecnologias (Chave Primária, Inteiro, AUTO_INCREMENT)
-area (Texto, NOT NULL)
-nome_tecnologia (Texto, NOT NULL)
+4) Simule 2 registros para cada entidade.
 
-- Colaborador:
-id_colaborador (Chave Primária, Inteiro, AUTO_INCREMENT)
-nome (Texto, NOT NULL)
-cargo (Texto, NOT NULL)
-id_empresa (Chave Estrangeira referenciando Empresa)
+INSERT INTO colaborador (nome, cargo, disponibilidade, email, id_empresa) 
+VALUES 
+('Ana Silva', 'Desenvolvedora Web', 'Integral', 'ana.silva@example.com', 1),
+('João Santos', 'Analista de Dados', 'Parcial', 'joao.santos@example.com', 2);
 
-- Tecnologias_Empresa:
-id_emp_tec (Chave Primária, Inteiro, AUTO_INCREMENT)
-id_empresa (Chave Estrangeira referenciando Empresa)
-id_tecnologias (Chave Estrangeira referenciando Tecnologias)
-nivel_utilizacao (Inteiro, NOT NULL)
+-- Simulação de registros para a entidade Empresa
+INSERT INTO empresa (nome, cnpj, localizacao, contato, email) 
+VALUES 
+('TechCorp', '12.345.678/0001-01', 'São Paulo, Brasil', '+55 11 1234-5678', 'contato@techcorp.com'),
+('DataTech', '98.765.432/0001-02', 'Rio de Janeiro, Brasil', '+55 21 9876-5432', 'contato@datatech.com');
 
-3) Relacionamentos:
+-- Simulação de registros para a entidade Registro
+INSERT INTO registro (pesquisa, id_empresa, id_tec, area)
+VALUES 
+('2023/1', 1, 2, 'Desenvolvimento Web'),
+('2023/1', 2, 3, 'Análise de Dados');
 
-- Empresa e Colaborador:
-Relacionamento 1:N (Um para Muitos) entre Empresa e Colaborador.
-Uma empresa pode ter muitos colaboradores, mas um colaborador pertence a uma única empresa.
-
-- Empresa e Tecnologias_Empresa:
-Relacionamento 1:N (Um para Muitos) entre Empresa e Tecnologias_Empresa.
-Uma empresa pode ter várias entradas em Tecnologias_Empresa.
-
-- Tecnologias e Tecnologias_Empresa:
-Relacionamento 1:N (Um para Muitos) entre Tecnologias e Tecnologias_Empresa.
-Uma tecnologia pode estar associada a várias entradas em Tecnologias_Empresa.
-
-4) Simulação de 2 Registros para Cada Entidade:
-
-- Empresa:
-id_empresa: 1, nome_empresa: 'Google', endereco: 'Rua Maneira 144', telefone: '(21) 93333-3333'
-id_empresa: 2, nome_empresa: 'Nubank', endereco: 'Rua Meio Ruim 155', telefone: '(21) 94444-4444'
-
-- Tecnologias:
-id_tecnologias: 1, area: 'Análise de Dados', nome_tecnologia: 'MySQL'
-id_tecnologias: 2, area: 'Programação', nome_tecnologia: 'Python'
-
-- Colaborador:
-id_colaborador: 1, nome: 'João Paulo', cargo: 'Gerente Geral', id_empresa: 1
-id_colaborador: 2, nome: 'Gabriel Vinicius', cargo: 'Analista de Dados', id_empresa: 2
-
-- Tecnologias_Empresa:
-id_emp_tec: 1, id_empresa: 1, id_tecnologias: 1, nivel_utilizacao: 4
-id_emp_tec: 2, id_empresa: 1, id_tecnologias: 2, nivel_utilizacao: 3
-id_emp_tec: 3, id_empresa: 2, id_tecnologias: 1, nivel_utilizacao: 5
-id_emp_tec: 4, id_empresa: 2, id_tecnologias: 2, nivel_utilizacao: 2
+-- Simulação de registros para a entidade Tecnologia
+INSERT INTO tecnologia (nome, status)
+VALUES 
+('Java', 'Ativo'),
+('Python', 'Ativo');
